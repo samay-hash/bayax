@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { motion } from 'framer-motion';
-import logo from '../assets/logo.jpg'
+import logo from '../assets/bayax.png'
 import Button from './Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -22,7 +22,7 @@ const Footer = () => {
   return (
     <motion.div initial='initial' whileInView='inView' variants={footeAnimation} className='relative flex flex-col items-center justify-center bg-white/5 backdrop-blur-md border border-white/10 sm:mx-20 mx-5 rounded-3xl p-10 mb-10 shadow-2xl'>
       <div className='absolute -top-12'>
-        <img src={logo} alt="" className='w-24 h-24 rounded-full border-4 border-[#020617] shadow-xl' />
+        <img src={logo} alt="" className='w-24 h-24 object-contain rounded-xl bg-white border-4 border-slate-100 dark:border-[#020617] shadow-xl p-2' />
       </div>
       <div className='text-center space-y-6 pt-12'>
         <h1 className='sm:text-3xl text-xl font-bold text-slate-200 max-w-2xl leading-relaxed'>

@@ -10,6 +10,7 @@ import AuthSignup from './pages/AuthSignup'
 import NoPage from './pages/NoPage'
 import Dashboard from './pages/Dashboard'
 import LessonResult from './pages/LessonResult'
+import IdeaResult from './pages/IdeaResult'
 import { RecoilRoot } from 'recoil'
 import UserProfile from './pages/UserProfile'
 import ProtectedRoutes from './components/ProtectedRoutes'
@@ -19,7 +20,7 @@ import GridBackground from './components/ui/GridBackground'
 const App = () => {
   return (
     <ThemeProvider>
-      <div className='font-fontOne min-h-screen relative text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-[#020617] transition-colors duration-300 selection:bg-cyan-500 selection:text-white'>
+      <div className='font-fontOne min-h-screen relative text-slate-900 dark:text-slate-100 bg-white dark:bg-[#020617] transition-colors duration-300 selection:bg-cyan-500 selection:text-white'>
         <GridBackground />
         <div className="relative z-10">
           <RecoilRoot>
@@ -33,6 +34,7 @@ const App = () => {
                   <Route element={<ProtectedRoutes />}>
                     <Route path='/dashboard' element={<Dashboard />} />
                     <Route path='/lesson-result' element={<LessonResult />} />
+                    <Route path='/idea-result' element={<IdeaResult />} />
                     <Route path='/user/profile' element={<UserProfile />} />
                   </Route>
                 </Route>

@@ -18,7 +18,23 @@ const GridBackground = () => {
     return (
         <div className="fixed inset-0 z-0 pointer-events-none">
             {/* Background Layer - handled by global CSS/Tailwind in App.jsx, but we confirm transparency here or match variables if needed */}
-            <div className="absolute inset-0 bg-slate-50 dark:bg-[#020617] transition-colors duration-300"></div>
+            {/* Light Mode Gradient */}
+            <div
+                className="absolute inset-0 dark:hidden transition-opacity duration-300"
+                style={{
+                    backgroundImage: `radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #14b8a6 100%)`,
+                    backgroundSize: "100% 100%",
+                }}
+            />
+            {/* Dark Mode Background */}
+            <div className="absolute inset-0 hidden dark:block bg-[#020617] transition-colors duration-300">
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        backgroundImage: `radial-gradient(circle 500px at 50% 200px, #3e3e3e, transparent)`,
+                    }}
+                />
+            </div>
 
             {/* Grid Pattern */}
             <div

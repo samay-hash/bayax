@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import logo from "../assets/logo.jpg";
+import logo from "../assets/bayax.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -56,11 +56,11 @@ const NavBar = () => {
       variants={navBarAnimation}
       initial="initial"
       whileInView="inView"
-      className="flex justify-between items-center sm:px-16 px-6 py-6 text-xl relative z-50 font-medium text-slate-200"
+      className="flex justify-between items-center sm:px-16 px-6 py-6 text-xl relative z-50 font-medium text-slate-900 dark:text-slate-200"
     >
       <div>
         <Link to="/">
-          <img src={logo} alt="Logo" className="w-16 h-16 rounded-full border border-cyan-500/30 shadow-lg shadow-cyan-500/20" />
+          <img src={logo} alt="Logo" className="w-16 h-16 object-contain border border-slate-200 dark:border-cyan-500/30 rounded-xl shadow-lg shadow-cyan-500/10 bg-white p-1" />
         </Link>
       </div>
       {!isNavbar ? (

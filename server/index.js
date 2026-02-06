@@ -10,6 +10,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const { userRouter } = require("./routes/user.router");
 const { lessonRouter } = require("./routes/lesson.router");
+const { ideaRouter } = require("./routes/idea.router");
 
 const app = express();
 const port = process.env.PORT || 3004;
@@ -51,6 +52,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/lesson", lessonRouter);
+app.use("/api/v1/idea", ideaRouter);
 
 const main = async () => {
   try {

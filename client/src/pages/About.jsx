@@ -1,35 +1,64 @@
 import React from "react";
-import logo from "../assets/logo.jpg";
-import aboutIllustration from "../assets/illustrations/aboutIllustration.png";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRocket, faBrain, faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 
 const About = () => {
   return (
-    <div className="flex flex-col mb-10">
+    <div className="min-h-screen pt-32 pb-20 px-6 sm:px-20 text-slate-900 dark:text-slate-200 font-sans">
       <motion.div
-        initial={{ opacity: 0, x: -5 }}
-        whileInView={{ opacity: 1, x: 0, transition: { duration: 0.4 } }}
-        className="sm:mt-20 text-center flex flex-col items-center justify-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-4xl mx-auto text-center"
       >
-        <img src={logo} alt="" className="h-20" />
-        {/* <h1 className='text-4xl font-[900]'>About</h1> */}
-        <p className="sm:leading-8 sm:pt-5 sm:text-2xl sm:px-96 px-10">
-          Creating a lesson plan in Word is too boring , especially when it
-          comes to formatting boxes and aligning everything properly. It's one
-          of the most frustrating tasks to do on a laptop, so I decided to make
-          it easier. Now, you can create a lesson plan quickly and then refine
-          it as you like!
-        </p>
-        <img src={aboutIllustration} alt="" className="h-[550px]" />
-      </motion.div>
-      <div className="flex flex-col items-start text-start text-center sm:mx-72 mx-10 justify-center gap-10">
-        <h1 className="font-[700] text-2xl text-left">
-          I built goSimongo to simplify lesson planning for educators, so you
-          don't have to struggle with time-consuming tasks.
+        <div className="inline-block px-4 py-1.5 mb-8 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-600 dark:text-purple-400 text-sm font-medium">
+          Our Manifesto
+        </div>
+        <h1 className="text-4xl sm:text-6xl font-bold mb-8 leading-tight text-slate-900 dark:text-white">
+          Ideas are cheap. <br />
+          <span className="bg-gradient-to-r from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500 bg-clip-text text-transparent">Execution is everything.</span>
         </h1>
-        <p className="text-left text-lg">
-          As a B.Tech student and aspiring developer, I noticed how challenging and time-consuming it can be for teachers to create structured lesson plans. Traditional methods are often repetitive and slow. That’s why I built LessonFlow. Powered by the Gemini API, it helps generate clear and organized lesson plans in seconds — so teachers can focus more on teaching instead of paperwork. <br />
+      </motion.div>
+
+      <div className="max-w-3xl mx-auto space-y-12 mt-16 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+        <p>
+          We live in an era where everyone has an idea. "Uber for X", "Airbnb for Y", "AI for Z".
+          But 99% of these ideas die. Not because they were bad ideas, but because they stuck in
+          the <strong>"Confused Zone"</strong>.
         </p>
+        <p>
+          The founder didn't know where to start. They didn't know if the market existed.
+          They didn't have a roadmap. They had passion, but zero structure.
+        </p>
+
+        <div className="p-8 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl my-12">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">The BayaX Mission</h3>
+          <p className="text-slate-700 dark:text-slate-300">
+            To build the world's first <strong>Idea-to-Execution Engine</strong>.
+            We don't just "chat" about your idea. We rigorously analyze, structure,
+            and map it out until you have no excuse NOT to build it.
+          </p>
+        </div>
+
+        <p>
+          We believe that if we can lower the friction of "starting", we can unlock
+          a generation of builders who solve actual problems.
+        </p>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto mt-20">
+        {[
+          { icon: faBrain, title: "Intelligence", desc: "We use multi-agent AI to simulate a boardroom of experts." },
+          { icon: faCodeBranch, title: "Structure", desc: "We refuse to let you be vague. We force clarity." },
+          { icon: faRocket, title: "Action", desc: "We optimize for shipping, not just planning." }
+        ].map((item, i) => (
+          <div key={i} className="text-center p-6 bg-white dark:bg-slate-800/20 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
+            <FontAwesomeIcon icon={item.icon} className="text-3xl text-cyan-600 dark:text-cyan-500 mb-4" />
+            <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{item.title}</h4>
+            <p className="text-sm text-slate-600 dark:text-slate-400">{item.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
