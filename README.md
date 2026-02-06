@@ -1,148 +1,117 @@
+# 🚀 BayaX: The Idea-to-Execution Platform
+
 <div align="center">
+  <img src="client/public/bayax.png" alt="BayaX Logo" width="120" />
+  <h1>BayaX</h1>
+  <p><strong>Turn Confusion Into Execution.</strong></p>
+  <p>No more vague ideas. BayaX uses multi-agent AI to break your thoughts into structured, visual, and executable plans.</p>
 
-# 📚 AI Lesson Planner
-### *The Future of Automated Curriculum Design*
-
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Gemini AI](https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://deepmind.google/technologies/gemini/)
-
-<br />
-
-<!-- <p align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmNkdXQ5Y3JueGV6aXl6aXl6aXl6aXl6aXl6aXl6aXl6/xT9IgzoKnwFNmISR8I/giphy.gif" alt="AI Animation" width="600">
-  <br>
-  <em>Turn hours of planning into seconds of creativity.</em>
-</p> -->
-
+  <a href="https://bayax.vercel.app">View Demo</a> • <a href="#contributing">Contribute</a> • <a href="#license">License</a>
 </div>
 
 ---
 
-## 🛑 The Problem
-Teachers and educators face a silent productivity crisis:
-- **Time Drain:** Spending 10+ hours a week formatting Word documents.
-- **Writer's Block:** Staring at blank pages trying to align curricular goals with activities.
-- **Inconsistency:** delivering varied quality in lesson structures across different subjects.
-- **Rigid Tools:** Existing tools are either too simple (notes apps) or too complex (full LMS).
+## 🔥 Features
 
-## 🚀 The Solution
-**AI Lesson Planner** is a full-stack SaaS platform that leverages **Google's Gemini 2.0 Flash** to instantly generate comprehensive, standards-aligned lesson plans. 
-
-We don't just generate text; we **engineer documents**.
-*   **Input:** Subject, Topic, Grade, Duration.
-*   **Process:** AI analyzes educational standards + Backend generates a structured `.docx` file.
-*   **Output:** A beautiful Web UI presentation + Downloadable PDF & Word documents.
+- **🧠 Multi-Agent Analysis**:
+  - **Strategist**: Breaks down high-level goals.
+  - **Market Thinker**: Analyzes competition & monetization.
+  - **Project Manager**: Creates daily task lists.
+- **🗺️ Visual Logic Flow**: Interactive mind maps and logic trees (Topic -> Problem -> Solution -> Market).
+- **📝 Execution Roadmap**: 30/60/90 day plans with actionable checklists.
+- **📄 Export Ready**: Download your plan as PDF or export to Notion (Markdown).
+- **🌗 Dark/Light Mode**: Premium glassmorphism UI.
 
 ---
 
-## ⚡ Key Features
+## 🛠️ Tech Stack & Architecture
 
-✨ **Generative AI Core:** Powered by `gemini-2.0-flash-lite` for lightning-fast, highly accurate educational content.
-📄 **Native DOCX Generation:** The backend programmatically builds Microsoft Word documents (not just HTML exports), ensuring perfect formatting for administrative submission.
-🎨 **Modern UI/UX:** Built with React, Tailwind, and Framer Motion for a slick, dark-mode-first aesthetic.
-🔐 **Secure Auth:** robust authentication system using JWT (Access + Refresh Tokens) and HTTP-only cookies.
-☁️ **Cloud Native:** Fully deployable on Vercel (Frontend) and Render (Backend).
+This project is built with a modern MERN stack + Python logic.
 
----
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=react,vite,tailwind,nodejs,express,mongodb,python,vercel,aws" />
+</div>
 
-## 🛠 Tech Stack
-
-### **Frontend**
-*   **Framework:** React (Vite)
-*   **Styling:** Tailwind CSS + Framer Motion (Animations)
-*   **State Management:** Recoil
-*   **HTTP Client:** Axios
-*   **PDF Generation:** html2pdf.js
-
-### **Backend**
-*   **Runtime:** Node.js
-*   **Framework:** Express.js
-*   **Database:** MongoDB (Mongoose)
-*   **AI Engine:** Google Generative AI SDK (@google/generative-ai)
-*   **Document Engine:** `docx` library (Programmatic Word file creation)
-*   **Validation:** Zod
+| Component | Tech |
+| :--- | :--- |
+| **Frontend** | React, Vite, TailwindCSS, Framer Motion, Recoil, FontAwesome |
+| **Backend** | Node.js, Express, MongoDB (Mongoose) |
+| **AI Engine** | Google Gemini (1.5 Flash), Custom Prompt Engineering |
+| **Utilities** | jsPDF, html2canvas, Axios |
 
 ---
 
-## 🔌 Installation & Setup
+## 📂 Repository Structure
 
-Follow these steps to get the platform running locally.
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/YOUR_USERNAME/Lesson-Planning-Platform.git
-cd Lesson-Planning-Platform
 ```
-
-### 2. Backend Setup
-```bash
-cd server
-npm install
-```
-
-Create a `.env` file in the `/server` folder:
-```env
-PORT=3004
-MONGO_URI=your_mongodb_connection_string
-ACCESS_TOKEN_SECRET=your_random_secret_string
-REFRESH_TOKEN_SECRET=your_random_secret_string
-ACCESS_TOKEN_EXPIRY=1d
-REFRESH_TOKEN_EXPIRY=10d
-GEMINI_API_KEY=your_google_gemini_api_key
-CLIENT_URL=http://localhost:5173
-```
-
-Run the server:
-```bash
-npm run dev
-```
-
-### 3. Frontend Setup
-Open a new terminal:
-```bash
-cd client
-npm install
-```
-
-Create a `.env` file in the `/client` folder:
-```env
-VITE_API_URL=http://localhost:3004/api/v1
-```
-
-Run the client:
-```bash
-npm run dev
+BayaX/
+├── client/                 # Frontend (React + Vite)
+│   ├── src/
+│   │   ├── components/     # Reusable UI components (BlurReveal, etc.)
+│   │   ├── pages/          # Main route pages (Home, IdeaResult, Dashboard)
+│   │   ├── recoil/         # State management
+│   │   └── assets/         # Images and fonts
+├── server/                 # Backend (Node.js + Express)
+│   ├── controller/         # Logic for Ideas, Users, etc.
+│   ├── models/             # MongoDB Schemas
+│   └── index.js            # Entry point
+└── README.md
 ```
 
 ---
 
-## 🤖 How It Works (Under the Hood)
+## 🚀 Getting Started
 
-1.  **User Request:** The client sends the lesson topic (e.g., "Photosynthesis") to the API.
-2.  **AI Processing:** The server constructs a prompt for **Gemini 2.0**, instructing it to return a structured JSON object containing:
-    *   *Overview, Curricular Goals, Factual Knowledge, Teaching Points, Activities, Homework.*
-3.  **File Synthesis:** 
-    *   The server uses the `docx` library to assume this JSON data and "draw" a Word document paragraph by paragraph, applying bolding, bullet points, and headers programmatically.
-4.  **Delivery:** The server saves this file temporarily and streams both the raw JSON (for the UI) and the file (as base64) back to the user in a single request.
-5.  **Result:** The user sees the plan on screen and can click "Download DOCX" to get the physical file.
+### Prerequisites
+- Node.js (v18+)
+- MongoDB connection string
+- Google Gemini API Key
+
+### Installation
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/samay-hash/BayaX.git
+   cd BayaX
+   ```
+
+2. **Setup Server**
+   ```bash
+   cd server
+   npm install
+   # Create .env file with:
+   # MONGO_URL=...
+   # GEMINI_API_KEY=...
+   # PORT=3004
+   npm run dev
+   ```
+
+3. **Setup Client**
+   ```bash
+   cd client
+   npm install
+   npm run dev
+   ```
 
 ---
 
 ## 🤝 Contribution
 
-We welcome contributions!
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+We welcome builders! Open an issue or submit a PR.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
 <div align="center">
-  <p>Made with ❤️ for Educators.</p>
+  <sub>Built by <a href="https://twitter.com/ChemistGamer1">Samay</a></sub>
 </div>
