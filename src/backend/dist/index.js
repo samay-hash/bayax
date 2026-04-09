@@ -24,15 +24,16 @@ app.get("/health", (_req, res) => {
     res.status(200).json({ status: "running", timestamp: new Date().toISOString() });
 });
 const startServer = async () => {
+    // IMPORTANT: Bind port FIRST so Render's port scanner detects it
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
     try {
         await mongoose_1.default.connect(process.env.MONGO_URI);
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
+        console.log("Connected to MongoDB successfully!");
     }
     catch (error) {
         console.error("Database connection failed:", error);
-        process.exit(1);
     }
 };
 startServer();
