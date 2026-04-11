@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
+import Groq from "groq-sdk";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 dotenv.config();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
-const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "mock_key" });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "mock_key");
 
 interface IdeaRequestBody {
   step?: string;
@@ -93,18 +94,44 @@ export const analyzeIdea = async (req: Request, res: Response): Promise<void> =>
       ${promptContext}
     `;
 
-    const result = await model.generateContent(systemPrompt);
-    const response = await result.response;
-    const responseText = response.text();
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    
-    if (!jsonMatch) {
-      throw new Error("AI failed to return a valid JSON structure.");
+    let jsonResponse;
+
+    try {
+      // Primary attempt: Gemini 1.5 Flash
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const result = await model.generateContent(systemPrompt + "\nOutput strictly valid JSON.");
+      const geminiResponse = await result.response;
+      const responseText = geminiResponse.text();
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      
+      if (!jsonMatch) {
+         throw new Error("Gemini invalid JSON format");
+      }
+      jsonResponse = JSON.parse(jsonMatch[0]);
+    } catch (geminiError: any) {
+      console.warn("Gemini Failed, falling back to Groq:", geminiError.message || geminiError);
+      
+      // Fallback attempt: Groq Llama 3
+      const response = await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
+        messages: [{ role: "system", content: systemPrompt }],
+        response_format: { type: "json_object" },
+        temperature: 0.7,
+      });
+
+      const responseText = response.choices[0]?.message?.content || "";
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      
+      if (!jsonMatch) {
+        throw new Error("AI failed to return a valid JSON structure (Both Gemini and Groq).");
+      }
+
+      jsonResponse = JSON.parse(jsonMatch[0]);
     }
 
-    const jsonResponse = JSON.parse(jsonMatch[0]);
     res.status(200).json({ success: true, data: jsonResponse });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message || "AI Analysis Failed", error: error.message });
   }
 };
+

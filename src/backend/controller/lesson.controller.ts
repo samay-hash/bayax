@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import fs from "fs";
+import Groq from "groq-sdk";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { lessonPlanObject } from "../utils/zod";
 import { LessonPlanModel } from "../model/lesson.model";
 import { createDocument } from "../utils/convert";
 import { lessonPlanPrompt } from "../utils/prompts";
+
 
 interface LessonData {
   overview: string;
@@ -55,12 +57,14 @@ export const createPlan = async (req: Request, res: Response): Promise<void> => 
   const prompt = lessonPlanPrompt({ subject, topic, grade, duration });
 
   try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "mock_key" });
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "mock_key");
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
     let lessonData: LessonData;
 
     try {
+      // Primary attempt: Gemini 1.5 Flash
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent(prompt + " Output ONLY valid JSON. Do not use Markdown code blocks.");
       const response = await result.response;
       const rawContent = response.text();
@@ -72,11 +76,38 @@ export const createPlan = async (req: Request, res: Response): Promise<void> => 
         if (jsonMatch) {
           lessonData = JSON.parse(jsonMatch[0]);
         } else {
-          throw new Error("Failed to parse AI response");
+          throw new Error("Failed to parse Gemini AI response");
         }
       }
-    } catch {
-      lessonData = getMockData(topic);
+    } catch (geminiError: any) {
+      console.warn("Lesson Gemini Failed, falling back to Groq:", geminiError.message || geminiError);
+      
+      try {
+        const result = await groq.chat.completions.create({
+          model: "llama-3.1-8b-instant",
+          messages: [
+            { role: "system", content: "You are a professional educational architect. Output ONLY valid JSON." },
+            { role: "user", content: prompt }
+          ],
+          response_format: { type: "json_object" },
+          temperature: 0.6,
+        });
+        const rawContent = result.choices[0]?.message?.content || "";
+
+        try {
+          lessonData = JSON.parse(rawContent);
+        } catch {
+          const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            lessonData = JSON.parse(jsonMatch[0]);
+          } else {
+            throw new Error("Failed to parse Groq AI response");
+          }
+        }
+      } catch (e) {
+        console.error("Groq also failed:", e);
+        lessonData = getMockData(topic);
+      }
     }
 
     const docFile = await createDocument({
