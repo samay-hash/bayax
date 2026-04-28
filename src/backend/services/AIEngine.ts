@@ -4,13 +4,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 export class AIEngine {
   private static instance: AIEngine;
   private readonly modelName: string;
-  private readonly groq: Groq;
-  private readonly genAI: GoogleGenerativeAI;
 
   private constructor() {
-    this.modelName = "gemini-flash-latest";
-    this.groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
-    this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+    // Use a valid, current Gemini model ID
+    this.modelName = "gemini-2.5-flash";
   }
 
   public static getInstance(): AIEngine {
@@ -40,23 +37,43 @@ export class AIEngine {
   }
 
   public async execute(prompt: string): Promise<object> {
+    // Read keys LAZILY at call time (after dotenv has loaded)
+    const geminiKey = process.env.GEMINI_API_KEY || "";
+    const groqKey = process.env.GROQ_API_KEY || "";
+
+    console.log("[AIEngine] Gemini Key present:", !!geminiKey);
+    console.log("[AIEngine] Groq Key present:", !!groqKey);
+
     try {
-      return await this.callGemini(prompt);
+      console.log("[AIEngine] Attempting Gemini (" + this.modelName + ")...");
+      const result = await this.callGemini(prompt, geminiKey);
+      console.log("[AIEngine] Gemini succeeded.");
+      return result;
     } catch (geminiError: any) {
-      console.warn("[AIEngine] Gemini failed, switching to Groq:", geminiError.message);
-      return await this.callGroq(prompt);
+      console.warn("[AIEngine] Gemini failed:", geminiError.message);
+      try {
+        console.log("[AIEngine] Attempting Groq fallback...");
+        const result = await this.callGroq(prompt, groqKey);
+        console.log("[AIEngine] Groq succeeded.");
+        return result;
+      } catch (groqError: any) {
+        console.error("[AIEngine] Groq also failed:", groqError.message);
+        throw new Error(`Both AI providers failed. Gemini: ${geminiError.message} | Groq: ${groqError.message}`);
+      }
     }
   }
 
-  private async callGemini(prompt: string): Promise<object> {
-    const model = this.genAI.getGenerativeModel({ model: this.modelName });
+  private async callGemini(prompt: string, apiKey: string): Promise<object> {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: this.modelName });
     const result = await model.generateContent(prompt + "\nOutput ONLY valid JSON.");
     const text = result.response.text();
     return this.parseJSON(text);
   }
 
-  private async callGroq(prompt: string): Promise<object> {
-    const response = await this.groq.chat.completions.create({
+  private async callGroq(prompt: string, apiKey: string): Promise<object> {
+    const groq = new Groq({ apiKey });
+    const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [{ role: "system", content: prompt }],
       response_format: { type: "json_object" },

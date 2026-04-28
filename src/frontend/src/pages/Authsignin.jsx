@@ -35,7 +35,8 @@ const Authsignin = () => {
     try {
       const user = await logInUser(logInData);
 
-      if (!user) {
+      // Check if login actually succeeded (response must have username)
+      if (!user || !user.username) {
         setAuthMessage(true);
         return;
       }
@@ -48,6 +49,7 @@ const Authsignin = () => {
 
       navigate("/dashboard");
     } catch (error) {
+      setAuthMessage(true);
       console.log(`something went wrong ${error}`);
     }
   };
