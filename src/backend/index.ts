@@ -1,13 +1,16 @@
+// CRITICAL: dotenv MUST load before any other imports 
+// because AIEngine Singleton reads API keys at import time
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { DatabaseConnection } from "./services/DatabaseConnection";
 import { userRouter } from "./routes/user.router";
 import { lessonRouter } from "./routes/lesson.router";
 import { ideaRouter } from "./routes/idea.router";
 
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -29,7 +29,8 @@ const AuthSignup = () => {
     try {
       const userCreated = await createUser(user);
 
-      if (!userCreated) {
+      // Check if signup actually succeeded (response must have username)
+      if (!userCreated || !userCreated.username) {
         setAuthMessage(true);
         return;
       }
@@ -41,6 +42,7 @@ const AuthSignup = () => {
       navigate("/dashboard");
       setUser({ email: "", password: "", username: "" });
     } catch (error) {
+      setAuthMessage(true);
       console.log(error.message);
     }
   };
