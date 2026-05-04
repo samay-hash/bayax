@@ -7,5 +7,6 @@ const lessonController = new LessonController();
 
 lessonRouter.post("/createPlan", auth, lessonController.createPlan);
 lessonRouter.get("/viewAllLessonPlans", auth, lessonController.viewAllPlans);
+lessonRouter.get("/:id", auth, lessonController.viewPlan);
 
 export { lessonRouter };

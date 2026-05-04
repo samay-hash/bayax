@@ -5,6 +5,7 @@ export interface ILessonPlan extends Document {
   topic: string;
   grade: string;
   duration: number;
+  lessonData: Record<string, any>;
   creatorId: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -16,9 +17,11 @@ const LessonSchema = new Schema<ILessonPlan>(
     topic: { type: String, required: true },
     grade: { type: String, required: true },
     duration: { type: Number, required: true },
+    lessonData: { type: Schema.Types.Mixed, default: {} },
     creatorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );
 
 export const LessonPlanModel = mongoose.model<ILessonPlan>("LessonPlan", LessonSchema);
+

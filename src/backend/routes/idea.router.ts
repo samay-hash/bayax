@@ -6,5 +6,7 @@ const ideaRouter = Router();
 const ideaController = new IdeaController();
 
 ideaRouter.post("/analyze", auth, ideaController.analyzeIdea);
+ideaRouter.get("/", auth, ideaController.viewAllProjects);
+ideaRouter.get("/:id", auth, ideaController.viewProject);
 
 export { ideaRouter };
