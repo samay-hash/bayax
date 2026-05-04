@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import logo from "../assets/bayax.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark, faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
 import UserProfilebtn from "./UserProfilebtn";
 import { userProfileState } from "../recoil/createUser.recoil";
@@ -74,6 +74,14 @@ const NavBar = () => {
                 <Link to={nav.url} className="text-slate-800 dark:text-slate-200">{nav.name}</Link>
               </li>
             ))}
+            {userProfile && (
+              <li className="transition-all duration-200 hover:text-cyan-400 hover:scale-105">
+                <Link to="/history" className="flex items-center gap-1.5 text-slate-800 dark:text-slate-200">
+                  <FontAwesomeIcon icon={faClockRotateLeft} className="text-sm" />
+                  History
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="flex items-center gap-4">
             <ThemeToggle />
@@ -123,6 +131,18 @@ const NavBar = () => {
                 </Link>
               </li>
             ))}
+            {userProfile && (
+              <li>
+                <Link
+                  to="/history"
+                  onClick={() => setToggleMenu(false)}
+                  className="text-2xl font-light text-slate-300 hover:text-cyan-400 transition-colors flex items-center justify-center gap-2"
+                >
+                  <FontAwesomeIcon icon={faClockRotateLeft} className="text-lg" />
+                  History
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       )}

@@ -15,6 +15,7 @@ export class LessonController {
     return Array.isArray(data) ? data.join("\n") : data;
   }
 
+  // POST /createPlan — Generate a new lesson plan
   public createPlan = async (req: Request, res: Response): Promise<void> => {
     const parsedObject = lessonPlanObject.safeParse(req.body);
     const creatorId = (req as any).userId;
@@ -53,7 +54,8 @@ export class LessonController {
         summarizationhomeText: `${lessonData.summarization}\n\nHomework:\n${this.toText(lessonData.homework)}`,
       });
 
-      await this.lessonService.storePlan({ subject, topic, grade, duration, creatorId });
+      // Now persists the full AI-generated lessonData along with metadata
+      await this.lessonService.storePlan({ subject, topic, grade, duration, creatorId }, lessonData);
 
       const docxBase64 = fs.readFileSync(docFile).toString("base64");
       fs.unlink(docFile, () => {});
@@ -66,13 +68,30 @@ export class LessonController {
     }
   };
 
+  // GET /viewAllLessonPlans — Fetch all lesson plans (metadata only)
   public viewAllPlans = async (req: Request, res: Response): Promise<void> => {
     const creatorId = (req as any).userId;
     try {
       const lessonPlans = await this.lessonService.getPlans(creatorId);
-      res.status(200).json({ msg: "lesson plans fetched successfully", lessonPlans });
+      res.status(200).json({ success: true, lessonPlans });
     } catch (error: any) {
-      res.status(500).json({ msg: `error while fetching plans: ${error.message}` });
+      res.status(500).json({ success: false, message: `Error fetching plans: ${error.message}` });
+    }
+  };
+
+  // GET /:id — Fetch a single lesson plan with full data
+  public viewPlan = async (req: Request, res: Response): Promise<void> => {
+    const creatorId = (req as any).userId;
+    const id = req.params.id as string;
+    try {
+      const plan = await this.lessonService.getPlanById(id, creatorId);
+      if (!plan) {
+        res.status(404).json({ success: false, message: "Lesson plan not found" });
+        return;
+      }
+      res.status(200).json({ success: true, plan });
+    } catch (error: any) {
+      res.status(500).json({ success: false, message: `Error fetching plan: ${error.message}` });
     }
   };
 }

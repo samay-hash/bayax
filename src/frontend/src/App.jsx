@@ -11,6 +11,7 @@ import NoPage from './pages/NoPage'
 import Dashboard from './pages/Dashboard'
 import LessonResult from './pages/LessonResult'
 import IdeaResult from './pages/IdeaResult'
+import History from './pages/History'
 import { RecoilRoot } from 'recoil'
 import UserProfile from './pages/UserProfile'
 import ProtectedRoutes from './components/ProtectedRoutes'
@@ -35,6 +36,7 @@ const App = () => {
                     <Route path='/dashboard' element={<Dashboard />} />
                     <Route path='/lesson-result' element={<LessonResult />} />
                     <Route path='/idea-result' element={<IdeaResult />} />
+                    <Route path='/history' element={<History />} />
                     <Route path='/user/profile' element={<UserProfile />} />
                   </Route>
                 </Route>

@@ -57,6 +57,11 @@ Most startups fail because of a lack of *clarity* and *structure*. **BayaX** bri
   <blockquote>Guaranteed uptime through a robust Strategy Pattern. If Google's Gemini SDK faces downtime or rate limits, the engine instantaneously pivots to Groq's blazing-fast Llama 3 model silently in the background.</blockquote>
 </details>
 
+<details open>
+  <summary><b>🗄️ Persistent History Vault</b></summary>
+  <blockquote>Automatically archives all your generated Startup Blueprints and Lesson Plans to a MongoDB database. Access your past brilliant ideas and comprehensive educational strategies anytime via the dedicated History dashboard without re-running AI queries.</blockquote>
+</details>
+
 ---
 
 ## 🧬 Architectural DNA (System Design)

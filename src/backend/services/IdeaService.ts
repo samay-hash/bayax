@@ -52,4 +52,16 @@ export class IdeaService {
       creatorId: data.creatorId,
     });
   }
+
+  // Repository: fetch all projects for a user (metadata only for list view)
+  async getProjects(creatorId: string) {
+    return IdeaProjectModel.find({ creatorId })
+      .select("projectName field intent status createdAt")
+      .sort({ createdAt: -1 });
+  }
+
+  // Repository: fetch single project with full analysisData for detail view
+  async getProjectById(id: string, creatorId: string) {
+    return IdeaProjectModel.findOne({ _id: id, creatorId });
+  }
 }
